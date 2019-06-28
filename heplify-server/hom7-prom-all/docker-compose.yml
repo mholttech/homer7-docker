@@ -23,11 +23,11 @@ services:
       - 9090
     labels:
       org.label-schema.group: "monitoring"
-  
+
   alertmanager:
     image: prom/alertmanager:latest
     container_name: alertmanager
-    volumes: 
+    volumes:
       - ./alertmanager/:/etc/alertmanager/
     command:
       - '--config.file=/etc/alertmanager/config.yml'
@@ -56,7 +56,7 @@ services:
       - 9100
     labels:
       org.label-schema.group: "monitoring"
-  
+
   grafana:
     image: grafana/grafana:master
     container_name: grafana
@@ -84,7 +84,7 @@ services:
       - 3100
     ports:
       - "3100:3100"
-    command: "-config.file=/etc/loki/loki-local-config.yaml" 
+    command: "-config.file=/etc/loki/loki-local-config.yaml"
     labels:
       org.label-schema.group: "monitoring"
 
@@ -179,3 +179,20 @@ services:
       interval: 1s
       timeout: 3s
       retries: 30
+  
+homer-webapp:
+  container_name: homer-webapp
+  image: sipcapture/homer-webapp
+  environment:
+    - "DB_HOST=db"
+    - "DB_USER=root"
+    - "DB_PASS="
+  expose:
+    - 80
+  volumes:
+    - ./docker-compose.yml:/homer-semaphore/.bootstrapped
+  networks:
+    - monitor-net
+  restart: unless-stopped
+  depends_on:
+    - db
