@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3.1'
 
 volumes:
     prometheus_data: {}
@@ -179,20 +179,20 @@ services:
       interval: 1s
       timeout: 3s
       retries: 30
-  
-homer-webapp:
-  container_name: homer-webapp
-  image: sipcapture/homer-webapp
-  environment:
-    - "DB_HOST=db"
-    - "DB_USER=root"
-    - "DB_PASS="
-  expose:
-    - 80
-  volumes:
-    - ./docker-compose.yml:/homer-semaphore/.bootstrapped
-  networks:
-    - monitor-net
-  restart: unless-stopped
-  depends_on:
-    - db
+
+  homer-webapp:
+    container_name: homer-webapp
+    image: sipcapture/homer-webapp
+    environment:
+      - "DB_HOST=db"
+      - "DB_USER=root"
+      - "DB_PASS="
+    expose:
+      - 80
+    volumes:
+      - ./docker-compose.yml:/homer-semaphore/.bootstrapped
+    networks:
+      - monitor-net
+    restart: unless-stopped
+    depends_on:
+      - db
