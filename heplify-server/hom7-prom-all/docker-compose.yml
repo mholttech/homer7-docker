@@ -182,15 +182,12 @@ services:
 
   homer-webapp:
     container_name: homer-webapp
-    image: sipcapture/homer-webapp
+    image: sipcapture/homer-app:master
     environment:
       - "DB_HOST=db"
       - "DB_USER=root"
-      - "DB_PASS="
-    expose:
-      - 80
-    volumes:
-      - ./docker-compose.yml:/homer-semaphore/.bootstrapped
+      - "DB_PASS=homerSeven"
     restart: unless-stopped
     depends_on:
-      - db
+      db:
+        condition: service_healthy
